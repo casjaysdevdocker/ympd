@@ -29,7 +29,7 @@ casjaysdev/ympd:latest
 version: "2"
 services:
   ympd:
-    image: casjaysdev/ympd
+    image: casjaysdevdocker/ympd
     container_name: ympd
     environment:
       - TZ=America/New_York
