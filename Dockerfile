@@ -39,12 +39,12 @@ RUN \
   git clone https://github.com/jcorporation/myMPD ./ && \
   bash ./build.sh installdeps && \
   bash ./build.sh releaseinstall \
-  mkdir -p "$DESTDIR" 
+  mkdir -p "$DESTDIR"
 
 COPY ./bin/. ${DESTDIR}/usr/local/bin/
 
 FROM casjaysdevdocker/alpine:latest
-ARG BUILD_DATE="$(date +'%Y-%m-%d %H:%M')" 
+ARG BUILD_DATE="$(date +'%Y-%m-%d %H:%M')"
 
 LABEL \
   org.label-schema.name="ympd" \
@@ -58,7 +58,7 @@ LABEL \
   org.label-schema.vcs-type="Git" \
   org.label-schema.schema-version="1.0" \
   org.label-schema.vendor="CasjaysDev" \
-  maintainer="CasjaysDev <docker-admin@casjaysdev.com>" 
+  maintainer="CasjaysDev <docker-admin@casjaysdev.com>"
 
 RUN apk -U upgrade && \
   apk add --no-cache \
@@ -77,7 +77,7 @@ RUN addgroup -S mympd 2>/dev/null && \
   -G mympd -g myMPD mympd 2>/dev/null
 
 EXPOSE 8082 6600
-ENV HOSTNAME="ympd" 
+ENV HOSTNAME="ympd"
 
 COPY --from=build /app/dist/. /
 COPY ./config/mpd.conf /etc/mpd.conf
@@ -85,5 +85,5 @@ COPY ./config/mympd/. /var/lib/mympd/config/
 COPY ./config/pulse-client.conf /etc/pulse/client.conf
 
 VOLUME [ "/config", "/var/lib/mpd", "/var/lib/mympd", "/music", "/playlists" ]
-HEALTHCHECK CMD ["/usr/local/bin/entrypoint-ympd.sh", "healthcheck"]
-ENTRYPOINT ["/usr/local/bin/entrypoint-ympd.sh"] 
+HEALTHCHECK --interval=15s --timeout=3s CMD ["/usr/local/bin/entrypoint-ympd.sh", "healthcheck"]
+ENTRYPOINT ["/usr/local/bin/entrypoint-ympd.sh"]
