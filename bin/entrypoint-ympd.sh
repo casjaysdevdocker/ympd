@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-
+# Set bash options
+[ -n "$DEBUG" ] && set -x
+set -o pipefail
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 DOCKER_PORT="8082"
 DOCKER_HOST="$(ip route | awk '/default/ { print $3 }')"
 export TZ="${TZ:-America/New_York}"
