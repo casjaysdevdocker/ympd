@@ -1,50 +1,79 @@
-# 👋 ympd Readme 👋
+## 👋 Welcome to ympd 🚀  
 
-ympd README
-
-## Run container
-
-### via command line
+ympd README  
+  
+  
+## Install my system scripts  
 
 ```shell
+ sudo bash -c "$(curl -q -LSsf "https://github.com/systemmgr/installer/raw/main/install.sh")"
+ sudo systemmgr --config && sudo systemmgr install scripts  
+```
+  
+## Automatic install/update  
+  
+```shell
+dockermgr update ympd
+```
+  
+## Install and run container
+  
+```shell
+dockerHome="/var/lib/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs"
+mkdir -p "/var/lib/srv/$USER/docker/ympd/rootfs"
+git clone "https://github.com/dockermgr/ympd" "$HOME/.local/share/CasjaysDev/dockermgr/ympd"
+cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/ympd/rootfs/." "$dockerHome/"
 docker run -d \
 --restart always \
---name ympd \
---device /dev/snd \
--e HOSTNAME=ympd \
+--privileged \
+--name casjaysdevdocker-ympd-latest \
+--hostname ympd \
 -e TZ=${TIMEZONE:-America/New_York} \
--e MYMPD_SSL=false \
--v $PWD/ympd/data/mpd:/var/lib/mpd:z \
--v $PWD/ympd/data/mympd:/var/lib/mympd:z \
--v $PWD/ympd/config:/config:z \
--v $HOME/Music:/music:z \
--p 6600:600 \
--p 8082:8082 \
-casjaysdev/ympd:latest
+-v "$dockerHome/data:/data:z" \
+-v "$dockerHome/config:/config:z" \
+-p 80:80 \
+casjaysdevdocker/ympd:latest
 ```
-
-### via docker-compose
-
+  
+## via docker-compose  
+  
 ```yaml
 version: "2"
 services:
-  ympd:
+  ProjectName:
     image: casjaysdevdocker/ympd
-    container_name: ympd
+    container_name: casjaysdevdocker-ympd
     environment:
       - TZ=America/New_York
       - HOSTNAME=ympd
     volumes:
-      - $HOME/Music:/music
-      - $HOME/.local/share/docker/storage/ympd/data/mpd:/var/lib/mpd \
-      - $HOME/.local/share/docker/storage/ympd/data/mympd:/var/lib/mympd \
-      - $HOME/.local/share/docker/storage/ympd/config:/config \
+      - "/var/lib/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs/data:/data:z"
+      - "/var/lib/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs/config:/config:z"
     ports:
       - 80:80
     restart: always
 ```
-
+  
+## Get source files  
+  
+```shell
+dockermgr download src casjaysdevdocker/ympd
+```
+  
+OR
+  
+```shell
+git clone "https://github.com/casjaysdevdocker/ympd" "$HOME/Projects/github/casjaysdevdocker/ympd"
+```
+  
+## Build container  
+  
+```shell
+cd "$HOME/Projects/github/casjaysdevdocker/ympd"
+buildx 
+```
+  
 ## Authors  
-
-🤖 Casjay: [Github](https://github.com/casjay) [Docker](https://hub.docker.com/casjay) 🤖  
-⛵ CasjaysDev: [Github](https://github.com/casjaysdev) [Docker](https://hub.docker.com/casjaysdev) ⛵  
+  
+🤖 casjay: [Github](https://github.com/casjay) 🤖  
+⛵ casjaysdevdocker: [Github](https://github.com/casjaysdevdocker) [Docker](https://hub.docker.com/u/casjaysdevdocker) ⛵  
