@@ -19,8 +19,8 @@ dockermgr update ympd
 ## Install and run container
   
 ```shell
-dockerHome="/var/lib/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs"
-mkdir -p "/var/lib/srv/$USER/docker/ympd/rootfs"
+dockerHome="/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs"
+mkdir -p "/srv/$USER/docker/ympd/rootfs"
 git clone "https://github.com/dockermgr/ympd" "$HOME/.local/share/CasjaysDev/dockermgr/ympd"
 cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/ympd/rootfs/." "$dockerHome/"
 docker run -d \
@@ -47,8 +47,8 @@ services:
       - TZ=America/New_York
       - HOSTNAME=ympd
     volumes:
-      - "/var/lib/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs/data:/data:z"
-      - "/var/lib/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs/config:/config:z"
+      - "/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs/data:/data:z"
+      - "/srv/$USER/docker/casjaysdevdocker/ympd/ympd/latest/rootfs/config:/config:z"
     ports:
       - 80:80
     restart: always
